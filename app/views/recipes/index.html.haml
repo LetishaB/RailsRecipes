@@ -1,0 +1,18 @@
+.container
+  .row
+    .input-group.input-group-style.col-sm-12
+      = form_tag recipes_path, method: :get do
+        = text_field_tag :q, params[:q], class: "form-control", placeholder: "Search.."
+        %span.input-group-addon
+          %button
+            %span.glyphicon.glyphicon-search
+
+- @recipe.each_slice(3) do |recipes|
+  .row
+    -recipes.each do |recipe|
+      .col-md-4
+        .recipe
+          .image_wrapper
+            = link_to recipe do
+              = image_tag recipe.image.url(:medium)
+          %h2= link_to recipe.title, recipe

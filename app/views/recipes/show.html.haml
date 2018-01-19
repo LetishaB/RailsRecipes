@@ -1,0 +1,40 @@
+.main_content
+  #recipe_top.row
+    .col-md-4
+      = image_tag @recipe.image.url(:medium), class: "recipe_image"
+    .col-md-8
+      #recipe_info
+        %h1= @recipe.title
+        %p.description= @recipe.description
+        %p
+          Submitted by
+          -if @recipe.user.username
+            = @recipe.user.username
+          -else
+            = @recipe.user.email
+  .row
+    .col-md-6
+      #ingredients
+        %h2 Ingredients
+        %ul
+        -if @recipe.ingredients != []
+          - @recipe.ingredients.each do |ingredient|
+            %li= ingredient.name
+        -else
+          %p There are no ingredients listed for this recipe.
+    .col-md-6
+      #directions
+        %h2 Directions
+        %ul
+        -if @recipe.directions != []
+          - @recipe.directions.each do |direction|
+            %li= direction.step
+        -else
+          %p There are no directions for this recipe.
+
+  .row
+    .col-md-12
+      = link_to "Back", root_path, class: "btn btn-default"
+      -if user_signed_in? && (current_user.id == @recipe.user_id)
+        = link_to "Edit", edit_recipe_path, class: "btn btn-default"
+        = link_to "Delete", recipe_path, method: :delete, data: {confirm: "Are you sure?"}, class: "btn btn-default"
